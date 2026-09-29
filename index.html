@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meine Testwebseite</title>
+<title>Tafkarp-Entertainment</title>
 <style>
   * {
     margin: 0;
@@ -17,9 +17,8 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 
-  /* ================= STARTSEITE (Vollbild-Meme) ================= */
   #home {
-    position: relative;   /* Bezugspunkt, damit die Buttons "auf" dem Bild liegen */
+    position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -28,44 +27,16 @@
   #home img {
     width: 100%;
     height: 100%;
-    object-fit: cover;    /* füllt den Bildschirm, ohne das Bild zu verzerren */
+    object-fit: cover;
     display: block;
   }
 
-  /* Buttons: position: absolute innerhalb von #home = liegen direkt auf dem Bild */
-  .home-button {
-    position: absolute;
-    top: 30%;                       /* "halboben" */
-    padding: 0.8em 1.6em;
-    font-size: 1.1rem;
-    border: 2px solid #fff;
-    background: rgba(0, 0, 0, 0.45);
-    color: #fff;
-    cursor: pointer;
-    letter-spacing: 0.03em;
-  }
-
-  .home-button:hover {
-    background: rgba(0, 0, 0, 0.7);
-  }
-
-  #btn-left {
-    left: 25%;                      /* Mitte der linken Bildhälfte */
-    transform: translate(-50%, -50%);
-  }
-
-  #btn-right {
-    right: 25%;                     /* Mitte der rechten Bildhälfte */
-    transform: translate(50%, -50%);
-  }
-
-  /* ================= VOLLBILD-OVERLAYS ================= */
   .overlay {
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100vh;
-    display: none;                  /* per JS auf "flex" umgeschaltet */
+    display: none;
     align-items: center;
     justify-content: center;
     background: #000;
@@ -81,7 +52,6 @@
     object-fit: cover;
   }
 
-  /* wird per JS eingeblendet, solange es noch kein echtes Bild gibt */
   .overlay-placeholder {
     display: none;
     position: absolute;
@@ -96,7 +66,6 @@
     background: repeating-linear-gradient(45deg, #1a1a1a, #1a1a1a 20px, #262626 20px, #262626 40px);
   }
 
-  /* normaler Schließen-Button (Kontaktformular) */
   .close-btn {
     position: absolute;
     top: 20px;
@@ -108,7 +77,6 @@
     cursor: pointer;
   }
 
-  /* ausweichender Schließen-Button (nur Overlay 1) */
   #close-evasive {
     position: absolute;
     top: 20px;
@@ -121,7 +89,6 @@
     padding: 0.4em 0.8em;
   }
 
-  /* ================= KONTAKTFORMULAR ================= */
   #contact-form {
     background: #fff;
     padding: 2em;
@@ -155,18 +122,13 @@
 </head>
 <body>
 
-  <!-- ================= STARTSEITE ================= -->
   <section id="home">
     <img id="img-start" src="images/start.jpg" alt="Startbild">
     <div id="placeholder-start" class="overlay-placeholder">
       Hier kommt bald das Startbild hin.
     </div>
-
-    <button id="btn-left" class="home-button">Minime !</button>
-    <button id="btn-right" class="home-button">Immo</button>
   </section>
 
-  <!-- ================= OVERLAY 1: schwer schließbares Vollbild ================= -->
   <div id="overlay-1" class="overlay">
     <img id="img-overlay1" src="images/overlay1.jpg" alt="Geheimes Vollbild">
     <div id="placeholder-overlay1" class="overlay-placeholder">
@@ -175,7 +137,6 @@
     <button id="close-evasive">✕ Schließen</button>
   </div>
 
-  <!-- ================= OVERLAY 2: Kontaktformular ================= -->
   <div id="overlay-2" class="overlay">
     <button class="close-btn" data-close="overlay-2">✕</button>
     <form id="contact-form">
@@ -196,7 +157,6 @@
   const overlay1 = document.getElementById('overlay-1');
   const overlay2 = document.getElementById('overlay-2');
 
-  // solange es noch kein echtes Bild gibt, Platzhalter statt kaputtem Bild zeigen
   const img1 = document.getElementById('img-overlay1');
   const placeholder1 = document.getElementById('placeholder-overlay1');
   img1.addEventListener('error', () => {
@@ -205,7 +165,6 @@
     placeholder1.innerHTML += `<br><span style="font-size:0.85rem; opacity:0.7;">(gesucht unter: ${img1.getAttribute('src')})</span>`;
   });
 
-  // dasselbe für das Startbild
   const imgStart = document.getElementById('img-start');
   const placeholderStart = document.getElementById('placeholder-start');
   imgStart.addEventListener('error', () => {
@@ -214,24 +173,12 @@
     placeholderStart.innerHTML += `<br><span style="font-size:0.85rem; opacity:0.7;">(gesucht unter: ${imgStart.getAttribute('src')})</span>`;
   });
 
-  // Buttons auf der Startseite öffnen die jeweiligen Vollbilder
-  document.getElementById('btn-left').addEventListener('click', () => {
-    overlay1.classList.add('active');
-  });
-
-  document.getElementById('btn-right').addEventListener('click', () => {
-    overlay2.classList.add('active');
-  });
-
-  // normale Schließen-Buttons (aktuell nur beim Kontaktformular)
   document.querySelectorAll('[data-close]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.getElementById(btn.dataset.close).classList.remove('active');
     });
   });
 
-  // der ausweichende Schließen-Button: springt bei Mauskontakt an eine
-  // zufällige Stelle innerhalb des Fensters
   const evasiveBtn = document.getElementById('close-evasive');
 
   evasiveBtn.addEventListener('mouseenter', () => {
@@ -239,11 +186,9 @@
     const maxY = window.innerHeight - evasiveBtn.offsetHeight - 20;
     evasiveBtn.style.left = (Math.random() * maxX) + 'px';
     evasiveBtn.style.top = (Math.random() * maxY) + 'px';
-    evasiveBtn.style.right = 'auto'; // sonst gewinnt right:20px gegen left
+    evasiveBtn.style.right = 'auto';
   });
 
-  // Notausgang für alle Overlays: Esc-Taste schließt zuverlässig,
-  // auch wenn der Button gerade nicht zu fassen ist
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       overlay1.classList.remove('active');
@@ -251,7 +196,6 @@
     }
   });
 
-  // Kontaktformular: sendet aktuell noch nichts wirklich ab
   document.getElementById('contact-form').addEventListener('submit', (e) => {
     e.preventDefault();
     alert('Formular ausgefüllt – für den echten Versand brauchen wir später noch eine Anbindung, z. B. über Formspree oder ein eigenes kleines Skript.');
